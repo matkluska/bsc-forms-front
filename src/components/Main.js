@@ -1,5 +1,6 @@
 import React from 'react';
 import LeftNavComponent from 'components/LeftNav';
+import conf from 'config'
 
 
 class AppComponent extends React.Component {
@@ -10,7 +11,8 @@ class AppComponent extends React.Component {
   }
 
   componentDidMount() {
-    var url = 'http://localhost:8080/user-service/users/best';
+    let url = conf.serverURL + 'user-service/users/best';
+    console.log(conf.appEnv);
     fetch(url)
       .then(function (response) {
         if (response.status >= 400) {
