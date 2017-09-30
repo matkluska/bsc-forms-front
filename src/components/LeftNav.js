@@ -1,42 +1,68 @@
-import React from 'react'
-import MenuItem from 'material-ui/MenuItem'
-import AppBar from 'material-ui/AppBar'
-import Drawer from 'material-ui/Drawer'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import React from 'react';
+import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
+import MenuItem from 'material-ui/MenuItem';
+import Drawer from 'material-ui/Drawer';
+import {spacing, typography} from 'material-ui/styles';
+import {blue600, white} from 'material-ui/styles/colors';
+import Home from 'material-ui/svg-icons/action/home';
 
-class LeftNavComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {open: false};
-    this.handleToggle = this.handleToggle.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-  }
 
-  handleToggle() {
-    this.setState({open: !this.state.open});
-  }
-
-  handleClose() {
-    this.setState({open: false});
-  }
+class LeftNav extends React.Component {
 
   render() {
+    const style = {
+      logo: {
+        cursor: 'pointer',
+        fontSize: 22,
+        color: typography.textFullWhite,
+        lineHeight: `${spacing.desktopKeylineIncrement}px`,
+        fontWeight: typography.fontWeightLight,
+        backgroundColor: blue600,
+        paddingLeft: 40,
+        height: 56
+      },
+      menuItem: {
+        color: white,
+        fontSize: 14
+      }
+    };
+
     return (
-      <MuiThemeProvider>
-        <div>
-          <Drawer
-            docked={false}
-            open={this.state.open}>
-            <MenuItem onClick={this.handleClose}>Menu Item 1</MenuItem>
-            <MenuItem onClick={this.handleClose}>Menu Item 2</MenuItem>
-            <MenuItem onClick={this.handleClose}>Menu Item 3</MenuItem>
-          </Drawer>
-          <AppBar title='BSc forms'
-                  onLeftIconButtonTouchTap={this.handleToggle}/>
-        </div>
-      </MuiThemeProvider>
+      <div>
+        <Drawer
+          docked={true}
+          open={this.props.navDrawerOpen}
+        >
+          <div style={style.logo}>
+            BSc Forms
+          </div>
+          <MenuItem
+            primaryText="Home"
+            containerElement={<Link to="/"/>}
+            style={style.menuItem}
+            leftIcon={<Home/>}
+          />
+          <MenuItem
+            primaryText="Form Creator"
+            containerElement={<Link to="/creator"/>}
+            style={style.menuItem}
+          />
+          <MenuItem
+            primaryText="Log In"
+            containerElement={<Link to="/login"/>}
+            style={style.menuItem}
+          />
+        </Drawer>
+      </div>
     );
   }
 }
 
-export default LeftNavComponent;
+
+LeftNav.propTypes = {
+  navDrawerOpen: PropTypes.bool,
+  username: PropTypes.string
+};
+
+export default LeftNav;

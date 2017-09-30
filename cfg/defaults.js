@@ -51,6 +51,22 @@ function getDefaultModules() {
       {
         test: /\.(mp4|ogg|svg)$/,
         loader: 'file-loader'
+      },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=image/svg+xml'
+      },
+      {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url?limit=10000&mimetype=application/octet-stream'
+      },
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: "url?limit=10000&mimetype=application/font-woff"
+      },
+      {
+        test: /\.eot(\?v=\d+.\d+.\d+)?$/,
+        loader: 'file'
       }
     ]
   };

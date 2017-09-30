@@ -1,7 +1,19 @@
 import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/Main';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import {Provider} from 'react-redux';
 
-// Render the main component into the dom
-ReactDOM.render(<App />, document.getElementById('app'));
+import App from './containers/App';
+import store from './store'
+import './styles.scss';
+import 'font-awesome/css/font-awesome.css';
+import 'flexboxgrid/css/flexboxgrid.css';
+
+injectTapEventPlugin();
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App/>
+  </Provider>,
+  document.getElementById('app'));
