@@ -6,35 +6,73 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Checkbox from 'material-ui/Checkbox';
+import Snackbar from 'material-ui/Snackbar';
 import {grey500, white} from 'material-ui/styles/colors';
 import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import Help from 'material-ui/svg-icons/action/help';
 import TextField from 'material-ui/TextField';
 import {loginUser} from '../action'
+import store from '../store'
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      password: ''
-    }
+      password: '',
+      usernameError: '',
+      passwordError: '',
+      formError: '',
+      isUsernameFieldValid: false,
+      isPasswordFieldValid: false
+    };
+  }
+
+  componentDidMount() {
+    store.subscribe(() => {
+      if (store.getState().auth.errorMessage)
+        this.setState({
+          formError: 'Bad credentials!'
+        })
+    })
   }
 
   handleSubmitClick = () => {
-    console.log(this.state.username);
-    this.props.dispatch(loginUser({
-      username: this.state.username.trim(),
-      password: this.state.password.trim()
-    }))
+    this.handleUsernameBlur();
+    this.handlePasswordBlur();
+    if (this.state.username && this.state.password)
+      this.props.dispatch(loginUser({
+        username: encodeURIComponent(this.state.username.trim()),
+        password: encodeURIComponent(this.state.password.trim())
+      }))
   };
 
   handleUsernameChange = (event) => {
-    this.setState({username: event.target.value});
+    this.setState({
+      username: event.target.value,
+      isUsernameFieldValid: !!event.target.value,
+      usernameError: '',
+      formError: ''
+    });
   };
 
   handlePasswordChange = (event) => {
-    this.setState({password: event.target.value});
+    this.setState({
+      password: event.target.value,
+      isPasswordFieldValid: !!event.target.value,
+      passwordError: '',
+      formError: ''
+    })
+  };
+
+  handleUsernameBlur = () => {
+    if (!this.state.username)
+      this.setState({usernameError: 'Required'})
+  };
+
+  handlePasswordBlur = () => {
+    if (!this.state.password)
+      this.setState({passwordError: 'Required'})
   };
 
   render() {
@@ -100,30 +138,49 @@ class LoginPage extends React.Component {
     const {isAuthenticated} = this.props;
 
     if (isAuthenticated) {
-      return(
-      <Redirect to={'/'}/>
+      return (
+        <Redirect to={'/'}/>
       )
     }
 
     return (
       <div>
         <div style={styles.loginContainer}>
-
           <Paper style={styles.paper}>
+            {this.state.formError &&
+            <Snackbar
+              open={true}
+              autoHideDuration={5000}
+              message={this.state.formError}
+            />}
             <form>
               <TextField
                 hintText="Username"
                 floatingLabelText="Username"
+                errorText={this.state.usernameError}
                 fullWidth={true}
                 value={this.state.username}
                 onChange={this.handleUsernameChange}
+                onBlur={this.handleUsernameBlur}
+                onKeyPress={(event) => {
+                  if (event.key === 'Enter') {
+                    this.handleSubmitClick()
+                  }
+                }}
               />
               <TextField
                 hintText="Password"
                 floatingLabelText="Password"
+                errorText={this.state.passwordError}
                 fullWidth={true}
                 value={this.state.password}
                 onChange={this.handlePasswordChange}
+                onBlur={this.handlePasswordBlur}
+                onKeyPress={(event) => {
+                  if (event.key === 'Enter') {
+                    this.handleSubmitClick()
+                  }
+                }}
                 type="password"
               />
 
@@ -139,6 +196,8 @@ class LoginPage extends React.Component {
                               primary={true}
                               style={styles.loginBtn}
                               onClick={this.handleSubmitClick}
+                              disabled={!(this.state.isPasswordFieldValid &&
+                                this.state.isUsernameFieldValid)}
                 />
               </div>
             </form>
