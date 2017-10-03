@@ -48,11 +48,6 @@ class LeftNav extends React.Component {
             containerElement={<Link to="/creator"/>}
             style={style.menuItem}
           />
-          <MenuItem
-            primaryText="Log In"
-            containerElement={<Link to="/login"/>}
-            style={style.menuItem}
-          />
         </Drawer>
       </div>
     );

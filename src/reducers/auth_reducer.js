@@ -1,5 +1,4 @@
-import {combineReducers} from 'redux'
-import {LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_SUCCESS, } from './action'
+import {LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_SUCCESS} from '../actions/auth_action'
 
 function auth(state = {
   isFetching: false,
@@ -12,7 +11,7 @@ function auth(state = {
         isFetching: true,
         isAuthenticated: false,
         errorMessage: '',
-        user: action.creds
+        user: action.credentials
       };
     case LOGIN_SUCCESS:
       return {
@@ -38,8 +37,4 @@ function auth(state = {
   }
 }
 
-const formsApp = combineReducers({
-  auth
-});
-
-export default formsApp
+export default auth

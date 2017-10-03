@@ -5,30 +5,33 @@ import {connect} from 'react-redux';
 
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-import Checkbox from 'material-ui/Checkbox';
 import Snackbar from 'material-ui/Snackbar';
 import {grey500, white} from 'material-ui/styles/colors';
-import PersonAdd from 'material-ui/svg-icons/social/person-add';
-import Help from 'material-ui/svg-icons/action/help';
 import TextField from 'material-ui/TextField';
-import {loginUser} from '../actions/auth_action'
+import {registerUser} from '../actions/register_action'
 
-class LoginPage extends React.Component {
+class SignUpPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
       password: '',
+      email: '',
+      confirmPassword: '',
       usernameError: '',
       passwordError: '',
-      formError: props.errorMessage,
+      emailError: '',
+      confirmPasswordError: '',
       isUsernameFieldValid: false,
-      isPasswordFieldValid: false
+      isPasswordFieldValid: false,
+      isEmailFieldValid: false,
+      isConfirmPasswordFieldValid: false,
+      formError: props.errorMessage
     };
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     if (nextProps.errorMessage)
       this.setState({
         formError: 'Bad credentials!'
@@ -38,11 +41,13 @@ class LoginPage extends React.Component {
   handleSubmitClick = () => {
     this.handleUsernameBlur();
     this.handlePasswordBlur();
-    if (this.state.username && this.state.password)
-      this.props.onLoginClick(
-        this.state.username,
-        this.state.password
-      )
+    this.handleConfirmPasswordBlur();
+    if (this.state.username && this.state.password && this.state.confirmPassword)
+    this.props.onSignInClick(
+      this.state.username,
+      this.state.email,
+      this.state.password
+    )
   };
 
   handleUsernameChange = (event) => {
@@ -63,6 +68,24 @@ class LoginPage extends React.Component {
     })
   };
 
+  handleEmailChange = (event) => {
+    this.setState({
+      email: event.target.value,
+      isEmailFieldValid: !!event.target.value,
+      emailError: '',
+      formError: ''
+    })
+  };
+
+  handleConfirmPasswordChange = (event) => {
+    this.setState({
+      confirmPassword: event.target.value,
+      isConfirmPasswordFieldValid: !!event.target.value,
+      confirmPasswordError: '',
+      formError: ''
+    })
+  };
+
   handleUsernameBlur = () => {
     if (!this.state.username)
       this.setState({usernameError: 'Required'})
@@ -71,6 +94,16 @@ class LoginPage extends React.Component {
   handlePasswordBlur = () => {
     if (!this.state.password)
       this.setState({passwordError: 'Required'})
+  };
+
+  handleEmailBlur = () => {
+    if (!this.state.email)
+      this.setState({emailError: 'Required'})
+  };
+
+  handleConfirmPasswordBlur = () => {
+    if (!this.state.confirmPassword)
+      this.setState({confirmPasswordError: 'Required'})
   };
 
   render() {
@@ -167,6 +200,20 @@ class LoginPage extends React.Component {
                 }}
               />
               <TextField
+                hintText="Email"
+                floatingLabelText="Email"
+                errorText={this.state.emailError}
+                fullWidth={true}
+                value={this.state.email}
+                onChange={this.handleEmailChange}
+                onBlur={this.handleEmailBlur}
+                onKeyPress={(event) => {
+                  if (event.key === 'Enter') {
+                    this.handleSubmitClick()
+                  }
+                }}
+              />
+              <TextField
                 hintText="Password"
                 floatingLabelText="Password"
                 errorText={this.state.passwordError}
@@ -181,51 +228,40 @@ class LoginPage extends React.Component {
                 }}
                 type="password"
               />
+              <TextField
+                hintText="Confirm Password"
+                floatingLabelText="Confirm Password"
+                errorText={this.state.confirmPasswordError}
+                fullWidth={true}
+                value={this.state.confirmPassword}
+                onChange={this.handleConfirmPasswordChange}
+                onBlur={this.handleConfirmPasswordBlur}
+                onKeyPress={(event) => {
+                  if (event.key === 'Enter') {
+                    this.handleSubmitClick()
+                  }
+                }}
+                type="password"
+              />
 
-              <div>
-                <Checkbox
-                  label="Remember me"
-                  style={styles.checkRemember.style}
-                  labelStyle={styles.checkRemember.labelStyle}
-                  iconStyle={styles.checkRemember.iconStyle}
-                />
-
-                <RaisedButton label="Login"
-                              primary={true}
-                              style={styles.loginBtn}
-                              onClick={this.handleSubmitClick}
-                              disabled={!(this.state.isPasswordFieldValid &&
-                                this.state.isUsernameFieldValid)}
-                />
-              </div>
+              <RaisedButton label="Sign In"
+                            primary={true}
+                            style={styles.loginBtn}
+                            onClick={this.handleSubmitClick}
+                            disabled={!(this.state.isPasswordFieldValid &&
+                              this.state.isUsernameFieldValid)}
+              />
             </form>
           </Paper>
 
           <div style={styles.buttonsDiv}>
-            <FlatButton
-              label="Register"
-              href="/"
-              style={styles.flatButton}
-              icon={<PersonAdd/>}
-              containerElement={<Link to="/signup"/>}
-            />
-
-            <FlatButton
-              label="Forgot Password?"
-              href="/"
-              style={styles.flatButton}
-              icon={<Help/>}
-            />
-          </div>
-
-          <div style={styles.buttonsDiv}>
             <Link to="/" style={{...styles.btn, ...styles.btnFacebook}}>
               <i className="fa fa-facebook fa-lg"/>
-              <span style={styles.btnSpan}>Log in with Facebook</span>
+              <span style={styles.btnSpan}>Sign in with Facebook</span>
             </Link>
             <Link to="/" style={{...styles.btn, ...styles.btnGoogle}}>
               <i className="fa fa-google-plus fa-lg"/>
-              <span style={styles.btnSpan}>Log in with Google</span>
+              <span style={styles.btnSpan}>Sign in with Google</span>
             </Link>
           </div>
         </div>
@@ -234,31 +270,36 @@ class LoginPage extends React.Component {
   }
 }
 
-LoginPage.propTypes = {
-  onLoginClick: PropTypes.func.isRequired,
+SignUpPage.propTypes = {
+  onSignInClick: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
+  isRegistered: PropTypes.bool,
   errorMessage: PropTypes.string
 };
 
 const mapStateToProps = (state) => {
-  const {auth} = state;
-  const {isAuthenticated, errorMessage} = auth;
+
+  const {auth, registration} = state;
+  const {isAuthenticated} = auth;
+  const {isRegistered, errorMessage} = registration;
 
   return {
     isAuthenticated,
+    isRegistered,
     errorMessage
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoginClick: (username, password) => {
-      dispatch(loginUser({
-        username: encodeURIComponent(username.trim()),
-        password: encodeURIComponent(password.trim())
+    onSignInClick: (username, email, password) => {
+      dispatch(registerUser({
+        username: username.trim(),
+        email: email.trim(),
+        password: password.trim()
       }))
     }
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage);

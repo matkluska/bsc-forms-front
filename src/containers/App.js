@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -8,8 +8,10 @@ import Authenticated from '../containers/Authenticated';
 import HomePage from '../containers/HomePage';
 import FormCreatorPage from '../containers/FormCreatorPage';
 import LoginPage from '../containers/LoginPage';
+import SignUpPage from '../containers/SignUpPage';
 import Nav from '../containers/Nav';
 import customTheme from '../custom-theme';
+import Public from './Public';
 
 class App extends React.Component {
   render() {
@@ -21,10 +23,8 @@ class App extends React.Component {
             {isAuthenticated && <Nav dispatch={dispatch}/>}
             <Switch>
               <Authenticated path="/creator" component={FormCreatorPage}{...this.props}/>
-              <Route path="/login" render={() => (
-                <LoginPage dispatch={dispatch}
-                           isAuthenticated={isAuthenticated}/>
-              )}/>
+              <Public path="/login" component={LoginPage} {...this.props}/>
+              <Public path="/signup" component={SignUpPage} {...this.props}/>
               <Authenticated exac path="/" component={HomePage}{...this.props}/>
             </Switch>
           </div>

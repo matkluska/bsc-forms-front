@@ -33,7 +33,6 @@ function loginError(message) {
 
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 function requestLogout() {
   return {
@@ -48,33 +47,6 @@ function receiveLogout() {
     type: LOGOUT_SUCCESS,
     isFetching: false,
     isAuthenticated: false
-  }
-}
-
-export const REGISTER_REQUEST = 'REGISTER_REQUEST';
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-export const REGISTER_FAILURE = 'REGISTER_FAILURE';
-
-function requestRegister(credentials) {
-  return {
-    type: REGISTER_REQUEST,
-    isFetching: true,
-    credentials
-  }
-}
-
-function receiveRegister() {
-  return {
-    type: REGISTER_SUCCESS,
-    isFetching: false
-  }
-}
-
-function registerError(message) {
-  return {
-    type: REGISTER_FAILURE,
-    isFetching: false,
-    message
   }
 }
 
@@ -110,33 +82,5 @@ export function logoutUser() {
     dispatch(requestLogout());
     localStorage.removeItem('access_token');
     dispatch(receiveLogout())
-  }
-}
-
-export function registerUser(credentials) {
-  let config = {
-    method: 'POST',
-    body: JSON.stringify({
-      username: credentials.username,
-      password: credentials.password,
-      email: credentials.email
-    })
-  };
-  return dispatch => {
-    dispatch(requestRegister(credentials));
-    let url = `${conf.serverURL}auth-service/uaa/users`;
-    return fetch(url, config)
-      .then(response =>
-        response.json()
-          .then(data => ({data, response}))
-      ).then(({data, response}) => {
-        if (!response.ok) {
-          dispatch(registerError(data.error_description));
-          return Promise.reject(data)
-        }
-        else {
-          dispatch(receiveRegister());
-        }
-      }).catch(err => console.log('Error: ', err))
   }
 }

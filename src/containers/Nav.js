@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import LeftNav from '../components/LeftNav';
-import {logoutUser} from '../action';
+import {logoutUser} from '../actions/auth_action';
 import withWidth, {LARGE, SMALL} from 'material-ui/utils/withWidth';
 
 class Nav extends React.Component {
