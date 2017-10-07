@@ -23,9 +23,8 @@ class SignUpPage extends React.Component {
       emailError: '',
       confirmPasswordError: '',
       isUsernameFieldValid: false,
-      isPasswordFieldValid: false,
+      isPasswordValid: false,
       isEmailFieldValid: false,
-      isConfirmPasswordFieldValid: false,
       formError: props.errorMessage
     };
   }
@@ -34,7 +33,7 @@ class SignUpPage extends React.Component {
     console.log(nextProps);
     if (nextProps.errorMessage)
       this.setState({
-        formError: 'Bad credentials!'
+        formError: nextProps.errorMessage
       })
   }
 
@@ -43,11 +42,11 @@ class SignUpPage extends React.Component {
     this.handlePasswordBlur();
     this.handleConfirmPasswordBlur();
     if (this.state.username && this.state.password && this.state.confirmPassword)
-    this.props.onSignInClick(
-      this.state.username,
-      this.state.email,
-      this.state.password
-    )
+      this.props.onSignInClick(
+        this.state.username,
+        this.state.email,
+        this.state.password
+      )
   };
 
   handleUsernameChange = (event) => {
@@ -60,10 +59,13 @@ class SignUpPage extends React.Component {
   };
 
   handlePasswordChange = (event) => {
+    let pass = event.target.value;
+    let isPassValid = pass && this.state.confirmPassword && this.state.confirmPassword === pass;
     this.setState({
-      password: event.target.value,
-      isPasswordFieldValid: !!event.target.value,
-      passwordError: '',
+      password: pass,
+      isPasswordValid: isPassValid,
+      passwordError: (isPassValid || !this.state.confirmPassword) ? '' : 'Passwords are not equal',
+      confirmPasswordError: '',
       formError: ''
     })
   };
@@ -78,10 +80,13 @@ class SignUpPage extends React.Component {
   };
 
   handleConfirmPasswordChange = (event) => {
+    let pass = event.target.value;
+    let isConfirmValid = pass && this.state.password && this.state.password === pass;
     this.setState({
-      confirmPassword: event.target.value,
-      isConfirmPasswordFieldValid: !!event.target.value,
-      confirmPasswordError: '',
+      confirmPassword: pass,
+      isPasswordValid: isConfirmValid,
+      passwordError: '',
+      confirmPasswordError: (isConfirmValid || !this.state.password) ? '' : 'Passwords are not equal',
       formError: ''
     })
   };
@@ -93,7 +98,7 @@ class SignUpPage extends React.Component {
 
   handlePasswordBlur = () => {
     if (!this.state.password)
-      this.setState({passwordError: 'Required'})
+      this.setState({passwordError: 'Required'});
   };
 
   handleEmailBlur = () => {
@@ -103,7 +108,7 @@ class SignUpPage extends React.Component {
 
   handleConfirmPasswordBlur = () => {
     if (!this.state.confirmPassword)
-      this.setState({confirmPasswordError: 'Required'})
+      this.setState({confirmPasswordError: 'Required'});
   };
 
   render() {
@@ -166,11 +171,11 @@ class SignUpPage extends React.Component {
       }
     };
 
-    const {isAuthenticated} = this.props;
+    const {isRegistered} = this.props;
 
-    if (isAuthenticated) {
+    if (isRegistered) {
       return (
-        <Redirect to={'/'}/>
+        <Redirect to={'/login'}/>
       )
     }
 
@@ -248,8 +253,9 @@ class SignUpPage extends React.Component {
                             primary={true}
                             style={styles.loginBtn}
                             onClick={this.handleSubmitClick}
-                            disabled={!(this.state.isPasswordFieldValid &&
-                              this.state.isUsernameFieldValid)}
+                            disabled={!(this.state.isPasswordValid &&
+                              this.state.isUsernameFieldValid &&
+                              this.state.isEmailFieldValid )}
               />
             </form>
           </Paper>
