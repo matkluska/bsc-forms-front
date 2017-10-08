@@ -6,9 +6,8 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import PermIdentity from 'material-ui/svg-icons/action/perm-identity';
 import Menu from 'material-ui/svg-icons/navigation/menu';
-import ViewModule from 'material-ui/svg-icons/action/view-module';
 import {white} from 'material-ui/styles/colors';
 
 class Header extends React.Component {
@@ -53,23 +52,14 @@ class Header extends React.Component {
             <div style={style.iconsRightContainer}>
               <IconMenu color={white}
                         iconButtonElement={
-                          <IconButton><ViewModule color={white}/></IconButton>
+                          <IconButton><PermIdentity color={white}/></IconButton>
                         }
                         targetOrigin={{horizontal: 'right', vertical: 'top'}}
                         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
               >
-                <MenuItem key={1} primaryText="Application 1"/>
-                <MenuItem key={2} primaryText="Application 2"/>
-                <MenuItem key={3} primaryText="Application 3"/>
-              </IconMenu>
-              <IconMenu color={white}
-                        iconButtonElement={
-                          <IconButton><MoreVertIcon color={white}/></IconButton>
-                        }
-                        targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-              >
-                <MenuItem primaryText="Sign out" onClick={() => {this.props.onSignOutClick()}}/>
+                <MenuItem primaryText="Sign out" onClick={() => {
+                  this.props.onSignOutClick()
+                }}/>
               </IconMenu>
             </div>
           }

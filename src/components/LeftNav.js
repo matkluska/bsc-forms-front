@@ -6,6 +6,7 @@ import Drawer from 'material-ui/Drawer';
 import {spacing, typography} from 'material-ui/styles';
 import {blue600, white} from 'material-ui/styles/colors';
 import Home from 'material-ui/svg-icons/action/home';
+import BorderColor from 'material-ui/svg-icons/editor/border-color';
 
 
 class LeftNav extends React.Component {
@@ -38,7 +39,7 @@ class LeftNav extends React.Component {
             BSc Forms
           </div>
           <MenuItem
-            primaryText="Home"
+            primaryText="My Forms"
             containerElement={<Link to="/"/>}
             style={style.menuItem}
             leftIcon={<Home/>}
@@ -47,6 +48,7 @@ class LeftNav extends React.Component {
             primaryText="Form Creator"
             containerElement={<Link to="/creator"/>}
             style={style.menuItem}
+            leftIcon={<BorderColor/>}
           />
         </Drawer>
       </div>
