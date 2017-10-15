@@ -6,7 +6,7 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import PermIdentity from 'material-ui/svg-icons/action/perm-identity';
+import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import Menu from 'material-ui/svg-icons/navigation/menu';
 import {white} from 'material-ui/styles/colors';
 
@@ -33,6 +33,10 @@ class Header extends React.Component {
       },
       iconsRightContainer: {
         marginLeft: 20
+      },
+      accountIcon: {
+        height: 30,
+        width: 30
       }
     };
 
@@ -52,7 +56,7 @@ class Header extends React.Component {
             <div style={style.iconsRightContainer}>
               <IconMenu color={white}
                         iconButtonElement={
-                          <IconButton><PermIdentity color={white}/></IconButton>
+                          <IconButton iconStyle={style.accountIcon}><AccountCircle color={white}/></IconButton>
                         }
                         targetOrigin={{horizontal: 'right', vertical: 'top'}}
                         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
