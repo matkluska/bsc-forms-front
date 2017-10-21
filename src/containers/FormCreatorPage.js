@@ -1,8 +1,11 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {saveForm} from '../actions/save_form_action'
+
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Save from 'material-ui/svg-icons/content/save'
 import {blue600, pink500} from 'material-ui/styles/colors'
@@ -20,6 +23,8 @@ class FormCreatorPage extends React.Component {
   constructor() {
     super();
     this.state = {
+      title: '',
+      description: '',
       questions: []
     }
   }
@@ -35,9 +40,17 @@ class FormCreatorPage extends React.Component {
     })
   }
 
-  log() {
-    console.log(this.state)
-  }
+  handleTitleChange = (event) => {
+    this.setState({
+      title: event.target.value
+    })
+  };
+
+  handleDescChange = (event) => {
+    this.setState({
+      description: event.target.value
+    })
+  };
 
   handleRequiredChange = (id) => (event) => {
     this.setState({
@@ -140,6 +153,10 @@ class FormCreatorPage extends React.Component {
     });
   };
 
+  handleSaveClick = () => {
+    this.props.onSaveClick(this.state)
+  };
+
   render() {
     const styles = {
       paper: {
@@ -177,11 +194,15 @@ class FormCreatorPage extends React.Component {
                 <TextField
                   hintText='Form title'
                   floatingLabelText='Form title'
+                  value={this.state.title}
+                  onChange={this.handleTitleChange}
                   fullWidth={true}
                 />
                 <TextField
                   hintText='Description'
                   floatingLabelText='Description'
+                  value={this.state.description}
+                  onChange={this.handleDescChange}
                   fullWidth={true}
                 />
               </form>
@@ -219,7 +240,7 @@ class FormCreatorPage extends React.Component {
         <FloatingActionButton
           style={styles.saveFormBtn}
           backgroundColor={blue600}
-          onClick={() => this.log()}
+          onClick={() => this.handleSaveClick()}
         >
           <Save/>
         </FloatingActionButton>
@@ -238,4 +259,29 @@ function s4() {
     .substring(1);
 }
 
-export default FormCreatorPage;
+FormCreatorPage.propTypes = {
+  onSaveClick: PropTypes.func.isRequired,
+  isSaved: PropTypes.bool,
+  errorMessage: PropTypes.string
+};
+
+const mapStateToProps = (state) => {
+
+  const {saveForm} = state;
+  const {isSaved, errorMessage} = saveForm;
+
+  return {
+    isSaved,
+    errorMessage
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSaveClick: (state) => {
+      dispatch(saveForm(state))
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormCreatorPage);
