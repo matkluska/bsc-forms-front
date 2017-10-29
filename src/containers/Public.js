@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Route} from 'react-router-dom';
+import {Route, withRouter} from 'react-router-dom';
 
-const Public = ({ component, path, ...rest }) => (
+const Public = ({component, path, ...rest}) => (
   <Route path={path} render={() => {
-    return React.createElement(component, { ...rest})
-  }} />
+    return React.createElement(withRouter(component), {...rest})
+  }}/>
 );
 
 Public.propTypes = {

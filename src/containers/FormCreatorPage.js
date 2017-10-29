@@ -12,11 +12,11 @@ import {blue600, pink500} from 'material-ui/styles/colors'
 import NewQuestion from 'components/NewQuestion';
 
 export const questionTypes = {
-  shortText: 'SHORT_TEXT',
-  longText: 'LONG_TEXT',
-  singleChoice: 'SINGLE_CHOICE',
-  multipleChoice: 'MULTIPLE_CHOICE',
-  linearScale: 'LINEAR_SCALE'
+  SHORT_TEXT: 'SHORT_TEXT',
+  LONG_TEXT: 'LONG_TEXT',
+  SINGLE_CHOICE: 'SINGLE_CHOICE',
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
+  LINEAR_SCALE: 'LINEAR_SCALE'
 };
 
 class FormCreatorPage extends React.Component {
@@ -24,7 +24,7 @@ class FormCreatorPage extends React.Component {
     super();
     this.state = {
       title: '',
-      description: '',
+      desc: '',
       questions: []
     }
   }
@@ -33,7 +33,7 @@ class FormCreatorPage extends React.Component {
     this.setState({
       questions: this.state.questions.concat({
         id: guid(),
-        type: questionTypes.shortText,
+        type: questionTypes.SHORT_TEXT,
         question: '',
         required: false
       })
@@ -48,7 +48,7 @@ class FormCreatorPage extends React.Component {
 
   handleDescChange = (event) => {
     this.setState({
-      description: event.target.value
+      desc: event.target.value
     })
   };
 
@@ -78,12 +78,12 @@ class FormCreatorPage extends React.Component {
       required: q.required
     };
 
-    if (type === questionTypes.singleChoice || type === questionTypes.multipleChoice)
+    if (type === questionTypes.SINGLE_CHOICE || type === questionTypes.MULTIPLE_CHOICE)
       question = {
         ...question,
         options: []
       };
-    else if (type === questionTypes.linearScale)
+    else if (type === questionTypes.LINEAR_SCALE)
       question = {
         ...question,
         minLabel: '',
@@ -201,7 +201,7 @@ class FormCreatorPage extends React.Component {
                 <TextField
                   hintText='Description'
                   floatingLabelText='Description'
-                  value={this.state.description}
+                  value={this.state.desc}
                   onChange={this.handleDescChange}
                   fullWidth={true}
                 />

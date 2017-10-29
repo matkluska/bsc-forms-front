@@ -51,11 +51,11 @@ class NewQuestion extends React.Component {
                     onChange={handleTypeChange(data.id)}
                     style={styles.questionType}
                   >
-                    <MenuItem value={questionTypes.shortText} primaryText='Short Text'/>
-                    <MenuItem value={questionTypes.longText} primaryText='Long Text'/>
-                    <MenuItem value={questionTypes.singleChoice} primaryText='Single Choice'/>
-                    <MenuItem value={questionTypes.multipleChoice} primaryText='Multiple Choice'/>
-                    <MenuItem value={questionTypes.linearScale} primaryText='Linear Scale'/>
+                    <MenuItem value={questionTypes.SHORT_TEXT} primaryText='Short Text'/>
+                    <MenuItem value={questionTypes.LONG_TEXT} primaryText='Long Text'/>
+                    <MenuItem value={questionTypes.SINGLE_CHOICE} primaryText='Single Choice'/>
+                    <MenuItem value={questionTypes.MULTIPLE_CHOICE} primaryText='Multiple Choice'/>
+                    <MenuItem value={questionTypes.LINEAR_SCALE} primaryText='Linear Scale'/>
                   </SelectField>
                 </div>
                 <div className='col-md-offset-3 col-md-3'>
@@ -82,7 +82,7 @@ class NewQuestion extends React.Component {
                 fullWidth={true}
                 style={styles.question}
               />
-              {(data.type === questionTypes.singleChoice || data.type === questionTypes.multipleChoice) &&
+              {(data.type === questionTypes.SINGLE_CHOICE || data.type === questionTypes.MULTIPLE_CHOICE) &&
               <NewOptions
                 questionId={data.id}
                 options={data.options}
@@ -90,7 +90,7 @@ class NewQuestion extends React.Component {
                 deleteOption={deleteOption}
                 handleOptionChange={handleOptionChange}
               />}
-              {data.type === questionTypes.linearScale &&
+              {data.type === questionTypes.LINEAR_SCALE &&
               <NewLinearScaleInputs
                 data={data}
                 handleMinChange={handleMinChange}
