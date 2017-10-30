@@ -9,6 +9,7 @@ import Save from 'material-ui/svg-icons/content/save'
 import {blue600} from 'material-ui/styles/colors'
 import NotFound from 'components/NotFound'
 import {getForm} from 'actions/get_form_action'
+import {addReply} from 'actions/add_reply_action'
 import {questionTypes} from './FormCreatorPage'
 import TextReply from 'components/replies/TextReply'
 import SingleChoiceReply from 'components/replies/SingleChoiceReply'
@@ -19,6 +20,7 @@ class FormReplyPage extends React.Component {
   constructor() {
     super();
     this.state = {
+      formId: '',
       questions: [],
       requiredReplies: []
     }
@@ -48,7 +50,7 @@ class FormReplyPage extends React.Component {
 
   static getQuestionWithType(type, q) {
     let question = {
-      id: q.id,
+      questionId: q.id,
       type: `${type}_REPLY`
     };
 
@@ -67,14 +69,17 @@ class FormReplyPage extends React.Component {
         ...question,
         optionIds: []
       };
-
-
     return question
   }
 
+  onAddReplyClick = () => {
+    let repliesToSend = this.prepareRepliesToSend();
+    this.props.addReply(repliesToSend, this.state.formId)
+  };
+
   handleReplyOptionChange = (id, isRequired) => (event, value) => {
     this.setState({
-      questions: this.state.questions.map(r => r.id !== id ? r : {...r, option: value})
+      questions: this.state.questions.map(r => r.questionId !== id ? r : {...r, option: value})
     });
     if (isRequired)
       this.updateRequiredReplies(id, value)
@@ -82,7 +87,7 @@ class FormReplyPage extends React.Component {
 
   handleReplyOptionIdChange = (id, isRequired) => (event, value) => {
     this.setState({
-      questions: this.state.questions.map(r => r.id !== id ? r : {...r, optionId: value})
+      questions: this.state.questions.map(r => r.questionId !== id ? r : {...r, optionId: value})
     });
     if (isRequired)
       this.updateRequiredReplies(id, value)
@@ -90,7 +95,7 @@ class FormReplyPage extends React.Component {
 
   handleReplyOptionIdsChange = (id, optionId, isRequired) => (event, checked) => {
     this.setState({
-      questions: this.state.questions.map(r => r.id !== id ? r :
+      questions: this.state.questions.map(r => r.questionId !== id ? r :
         {...r, optionIds: this.modifyOptionIds(r.optionIds, optionId, checked)})
     });
     if (isRequired) {
@@ -216,9 +221,7 @@ class FormReplyPage extends React.Component {
             style={styles.saveFormBtn}
             backgroundColor={blue600}
             disabled={this.state.requiredReplies.length > 0}
-            onClick={() => {
-              console.log(this.prepareRepliesToSend())
-            }}
+            onClick={this.onAddReplyClick}
           >
             <Save/>
           </FloatingActionButton>
@@ -240,22 +243,28 @@ class FormReplyPage extends React.Component {
 
 FormReplyPage.propTypes = {
   fetchForm: PropTypes.func.isRequired,
+  addReply: PropTypes.func.isRequired,
   isFound: PropTypes.bool,
   isNotFound: PropTypes.bool,
   form: PropTypes.object,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
+  isAdded: PropTypes.bool,
+  addReplyError: PropTypes.string
 };
 
 const mapStateToProps = (state) => {
 
-  const {getForm} = state;
-  const {isFound, isNotFound, form, errorMessage} = getForm;
+  const {getForm, addReply} = state;
+  const {isFound, isNotFound, form, errorMessage: getFormError} = getForm;
+  const {isAdded, errorMessage: addReplyError} = addReply;
 
   return {
     isFound,
     isNotFound,
     form,
-    errorMessage
+    getFormError,
+    isAdded,
+    addReplyError
   }
 };
 
@@ -263,6 +272,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchForm: (formId) => {
       dispatch(getForm(formId))
+    },
+    addReply: (reply, formId) => {
+      dispatch(addReply(reply, formId))
     }
   }
 };
