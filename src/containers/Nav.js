@@ -17,12 +17,17 @@ class Nav extends React.Component {
 
     return (
       <div>
-        <Header styles={styles.header}
-                handleChangeRequestNavDrawer={() => changeNavBar()}
-                onSignOutClick={() => dispatch(logoutUser())}/>
+        <Header
+          styles={styles.header}
+          handleChangeRequestNavDrawer={() => changeNavBar()}
+          onSignOutClick={() => dispatch(logoutUser())}
+        />
 
-        <LeftNav navDrawerOpen={isOpen}
-                 username="User Admin"/>
+        <LeftNav
+          onSignOutClick={() => dispatch(logoutUser())}
+          navDrawerOpen={isOpen}
+          username="User Admin"
+        />
 
         <div style={styles.container}>
           {this.props.children}

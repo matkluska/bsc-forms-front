@@ -1,14 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Redirect} from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {Redirect} from 'react-router-dom'
 
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import AccountCircle from 'material-ui/svg-icons/action/account-circle';
-import Menu from 'material-ui/svg-icons/navigation/menu';
-import {white} from 'material-ui/styles/colors';
+import AppBar from 'material-ui/AppBar'
+import IconButton from 'material-ui/IconButton'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
+import AccountCircle from 'material-ui/svg-icons/action/account-circle'
+import PowerSettingsNew from 'material-ui/svg-icons/action/power-settings-new'
+import Menu from 'material-ui/svg-icons/navigation/menu'
+import {white} from 'material-ui/styles/colors'
 
 class Header extends React.Component {
   constructor(props) {
@@ -61,9 +62,10 @@ class Header extends React.Component {
                         targetOrigin={{horizontal: 'right', vertical: 'top'}}
                         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
               >
-                <MenuItem primaryText="Sign out" onClick={() => {
-                  this.props.onSignOutClick()
-                }}/>
+                <MenuItem
+                  primaryText="Logout"
+                  leftIcon={<PowerSettingsNew/>}
+                  onClick={this.props.onSignOutClick}/>
               </IconMenu>
             </div>
           }
