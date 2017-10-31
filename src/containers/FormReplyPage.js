@@ -2,10 +2,10 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import Paper from 'material-ui/Paper'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import CircularProgress from 'material-ui/CircularProgress'
 import Divider from 'material-ui/Divider'
-import Save from 'material-ui/svg-icons/content/save'
+import Send from 'material-ui/svg-icons/content/send'
 import {blue600} from 'material-ui/styles/colors'
 import NotFound from 'components/NotFound'
 import {getForm} from 'actions/get_form_action'
@@ -15,6 +15,8 @@ import TextReply from 'components/replies/TextReply'
 import SingleChoiceReply from 'components/replies/SingleChoiceReply'
 import MultipleChoiceReply from 'components/replies/MultipleChoiceReply'
 import LinearScaleReply from 'components/replies/LinearScaleReply'
+import Snackbar from 'material-ui/Snackbar';
+import Success from 'components/Success';
 
 class FormReplyPage extends React.Component {
   constructor() {
@@ -151,9 +153,13 @@ class FormReplyPage extends React.Component {
       }
     };
 
-    const {isFound, isNotFound, form} = this.props;
+    const {isFound, isNotFound, form, isAdded, addReplyError} = this.props;
 
-    if (isFound === true) {
+    if (isAdded === true) {
+      return (
+        <Success message='Your reply was added'/>
+      )
+    } else if (isFound === true) {
       return (
         <div>
           <div className='row center-md'>
@@ -214,17 +220,24 @@ class FormReplyPage extends React.Component {
                     }
                   </div>
                 )}
+                <div className='end-xs'>
+                  <RaisedButton
+                    label='Send'
+                    onClick={this.onAddReplyClick}
+                    backgroundColor={blue600}
+                    primary={true}
+                    icon={<Send/>}
+                    disabled={this.state.requiredReplies.length > 0}
+                  />
+                </div>
               </Paper>
             </div>
           </div>
-          <FloatingActionButton
-            style={styles.saveFormBtn}
-            backgroundColor={blue600}
-            disabled={this.state.requiredReplies.length > 0}
-            onClick={this.onAddReplyClick}
-          >
-            <Save/>
-          </FloatingActionButton>
+          {addReplyError && <Snackbar
+            open={true}
+            autoHideDuration={5000}
+            message={addReplyError}
+          />}
         </div>
       );
     } else if (isNotFound === true) {
@@ -247,7 +260,7 @@ FormReplyPage.propTypes = {
   isFound: PropTypes.bool,
   isNotFound: PropTypes.bool,
   form: PropTypes.object,
-  errorMessage: PropTypes.string,
+  getFormError: PropTypes.string,
   isAdded: PropTypes.bool,
   addReplyError: PropTypes.string
 };
