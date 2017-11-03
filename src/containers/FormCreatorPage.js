@@ -1,15 +1,15 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import React from 'react'
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
 import {saveForm} from '../actions/save_form_action'
 
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import Paper from 'material-ui/Paper'
+import TextField from 'material-ui/TextField'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
 import Save from 'material-ui/svg-icons/content/save'
 import {blue600, pink500} from 'material-ui/styles/colors'
-import NewQuestion from 'components/NewQuestion';
+import NewQuestion from 'components/NewQuestion'
 
 export const questionTypes = {
   SHORT_TEXT: 'SHORT_TEXT',

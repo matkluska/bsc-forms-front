@@ -29,7 +29,6 @@ class FormReplyPage extends React.Component {
   }
 
   componentDidMount() {
-    console.log('send request');
     this.props.fetchForm(this.props.match.params.formId)
   }
 
@@ -139,17 +138,6 @@ class FormReplyPage extends React.Component {
         textAlign: 'left',
         overflow: 'auto',
         margin: '2%'
-      },
-      saveBtn: {
-        float: 'left'
-      },
-      saveFormBtn: {
-        margin: 0,
-        top: 'auto',
-        right: 20,
-        bottom: 20,
-        left: 'auto',
-        position: 'fixed'
       }
     };
 

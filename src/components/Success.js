@@ -23,13 +23,11 @@ class Success extends React.Component {
     const {message} = this.props;
 
     return (
-      <div>
-        <div className='center-xs' style={styles.container}>
-          <div style={styles.message}>
-            <CheckCircle style={styles.icon}/>
-            <h2 style={styles.title}>Success</h2>
-            <div>{message}</div>
-          </div>
+      <div className='center-xs'>
+        <div style={styles.message}>
+          <CheckCircle style={styles.icon}/>
+          <h2 style={styles.title}>Success</h2>
+          <div>{message}</div>
         </div>
       </div>
     );

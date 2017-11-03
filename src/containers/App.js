@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Authenticated from './Authenticated';
-import HomePage from './HomePage';
 import FormCreatorPage from './FormCreatorPage';
 import LoginPage from './LoginPage';
 import SignUpPage from './SignUpPage';
@@ -13,6 +12,7 @@ import customTheme from '../custom-theme';
 import Public from './Public';
 import withWidth from 'material-ui/utils/withWidth';
 import FormReplyPage from './FormReplyPage';
+import ListFormsPage from './ListFormsPage';
 
 
 class App extends React.Component {
@@ -26,7 +26,7 @@ class App extends React.Component {
               <Public path="/login" component={LoginPage} {...this.props}/>
               <Public path="/signup" component={SignUpPage} {...this.props}/>
               <Public path="/form/:formId" component={FormReplyPage} {...this.props}/>
-              <Authenticated exac path="/" component={HomePage}{...this.props}/>
+              <Authenticated exac path="/" component={ListFormsPage}{...this.props}/>
             </Switch>
           </div>
         </Router>
