@@ -32,12 +32,11 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^15.6.2",
     "react-redux": "^5.0.6",
-    "react-responsive-table": "^2.0.15",
     "react-router-dom": "^4.2.2",
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "victory": "^0.24.0"
+    "victory": "^0.24.1"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
@@ -67,7 +66,7 @@
     "karma-webpack": "^1.7.0",
     "minimist": "^1.2.0",
     "mocha": "^3.5.3",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.6.1",
     "null-loader": "^0.1.1",
     "open": "0.0.5",
     "phantomjs-prebuilt": "^2.0.0",
