@@ -13,19 +13,21 @@ import Public from './Public';
 import withWidth from 'material-ui/utils/withWidth';
 import FormReplyPage from './FormReplyPage';
 import ListFormsPage from './ListFormsPage';
+import FormStatsPage from './FormStatsPage';
 
 
 class App extends React.Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={customTheme}>
-        <Router>
+        <Router basename='/'>
           <div>
             <Switch>
               <Authenticated path="/creator" component={FormCreatorPage}{...this.props}/>
               <Public path="/login" component={LoginPage} {...this.props}/>
               <Public path="/signup" component={SignUpPage} {...this.props}/>
               <Public path="/form/:formId" component={FormReplyPage} {...this.props}/>
+              <Authenticated path="/stats/:formId" component={FormStatsPage} {...this.props}/>
               <Authenticated exac path="/" component={ListFormsPage}{...this.props}/>
             </Switch>
           </div>

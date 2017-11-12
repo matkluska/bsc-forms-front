@@ -27,9 +27,9 @@ class NewOptions extends React.Component {
       <div>
         <p style={styles.optionsLabel}>Options:</p>
         {options.map((option, idx) =>
-          <div className='row bottom-md' key={option.id}>
+          <div className='row bottom-xs' key={option.id}>
             <ChevronRight style={styles.icon}/>
-            <div className='col-md-9'>
+            <div className='col-xs-10'>
               <TextField
                 hintText={`Option #${idx + 1}`}
                 floatingLabelText={`Option #${idx + 1}`}
@@ -39,7 +39,7 @@ class NewOptions extends React.Component {
                 style={styles.optionValue}
               />
             </div>
-            <div className='col-md-1 end-md'>
+            <div className='col-xs end-xs'>
               <IconButton onClick={deleteOption(questionId, option.id)}>
                 <Clear/>
               </IconButton>

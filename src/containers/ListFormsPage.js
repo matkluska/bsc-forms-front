@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import Paper from 'material-ui/Paper'
 import CircularProgress from 'material-ui/CircularProgress'
@@ -8,7 +9,7 @@ import {listForms} from 'actions/list_forms_action'
 import {deleteForm} from 'actions/delete_form_action'
 import Snackbar from 'material-ui/Snackbar'
 import IconButton from 'material-ui/IconButton'
-import Link from 'material-ui/svg-icons/content/link'
+import LinkIcon from 'material-ui/svg-icons/content/link'
 import Delete from 'material-ui/svg-icons/action/delete'
 import ShowChart from 'material-ui/svg-icons/editor/show-chart'
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
@@ -50,31 +51,39 @@ class ListFormsPage extends React.Component {
       },
       columns: {
         title: {
-          width: '20%'
+          width: '20%',
+          whiteSpace: 'normal'
         },
         desc: {
           width: '20%',
-          textAlign: 'center'
+          textAlign: 'center',
+          whiteSpace: 'normal'
         },
         date: {
           width: '20%',
-          textAlign: 'center'
+          textAlign: 'center',
+          whiteSpace: 'normal'
         },
         questions: {
           width: '20%',
-          textAlign: 'center'
+          textAlign: 'center',
+          whiteSpace: 'normal'
         },
         actions: {
           width: '20%',
           textAlign: 'right',
           paddingRight: 0,
-          overflow: 'visible'
+          overflow: 'visible',
+          whiteSpace: 'normal'
         }
       },
       noData: {
         paddingTop: 10,
         opacity: 0.5,
         fontSize: 18
+      },
+      table: {
+        wordBreak: 'break-all'
       }
     };
 
@@ -83,12 +92,13 @@ class ListFormsPage extends React.Component {
     if (isListed === true) {
       return (
         <div>
-          <div className='row center-md'>
+          <div className='row center-xs'>
             <div className='col-xs-12'>
               <Paper style={styles.paper}>
                 <p style={styles.title}>Your forms</p>
                 <Table
                   selectable={false}
+                  style={styles.table}
                 >
                   <TableHeader
                     displaySelectAll={false}
@@ -128,6 +138,7 @@ class ListFormsPage extends React.Component {
                             <IconButton
                               tooltip='Show stats'
                               tooltipPosition={idx === 0 ? 'bottom-center' : 'top-center'}
+                              containerElement={<Link to={`/stats/${f.id}`}/>}
                             >
                               <ShowChart/>
                             </IconButton>
@@ -139,7 +150,7 @@ class ListFormsPage extends React.Component {
                                 tooltip='Copy link'
                                 tooltipPosition={idx === 0 ? 'bottom-center' : 'top-center'}
                               >
-                                <Link/>
+                                <LinkIcon/>
                               </IconButton>
                             </CopyToClipboard>
                             <IconButton

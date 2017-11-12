@@ -39,12 +39,12 @@ class NewQuestion extends React.Component {
     addOption, deleteOption, handleOptionChange} = this.props;
 
     return (
-      <div className='row center-md'>
-        <div className='col-md-8'>
+      <div className='row center-xs'>
+        <div className='col-xs-8'>
           <Paper style={styles.paper}>
             <form>
-              <div className='row bottom-md'>
-                <div className='col-md-4'>
+              <div className='row bottom-xs'>
+                <div className='col-xs-4 start-xs'>
                   <SelectField
                     floatingLabelText='Question type'
                     value={data.type}
@@ -58,7 +58,7 @@ class NewQuestion extends React.Component {
                     <MenuItem value={questionTypes.LINEAR_SCALE} primaryText='Linear Scale'/>
                   </SelectField>
                 </div>
-                <div className='col-md-offset-3 col-md-3'>
+                <div className='col-xs-offset-4 col-xs'>
                   <Toggle
                     label='Required'
                     toggled={data.required}
@@ -66,7 +66,7 @@ class NewQuestion extends React.Component {
                     style={styles.toggle}
                   />
                 </div>
-                <div className='col-md-1 end-md'>
+                <div className='col-xs end-xs'>
                   <IconButton onClick={handleDelete(data.id)} style={styles.clearBtn}>
                     <Clear/>
                   </IconButton>

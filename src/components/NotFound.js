@@ -24,7 +24,7 @@ class NotFound extends React.Component {
 
     return (
       <div>
-        <div className='center-md' style={styles.container}>
+        <div className='center-xs' style={styles.container}>
           <div style={styles.message}>
             <Block style={styles.icon}/>
             <h2 style={styles.title}>Page Not Found</h2>

@@ -1,8 +1,8 @@
 import conf from 'config'
 
-export const LIST_FORMS_REQUEST = 'GET_FORM_REQUEST';
-export const LIST_FORMS_SUCCESS = 'GET_FORM_SUCCESS';
-export const LIST_FORMS_FAILURE = 'GET_FORM_FAILURE';
+export const LIST_FORMS_REQUEST = 'LIST_FORMS_REQUEST';
+export const LIST_FORMS_SUCCESS = 'LIST_FORMS_SUCCESS';
+export const LIST_FORMS_FAILURE = 'LIST_FORMS_FAILURE';
 
 function requestListForms() {
   return {

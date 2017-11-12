@@ -187,8 +187,8 @@ class FormCreatorPage extends React.Component {
 
     return (
       <div>
-        <div className='row center-md'>
-          <div className='col-md-8'>
+        <div className='row center-xs'>
+          <div className='col-xs-8'>
             <Paper style={styles.paper}>
               <form>
                 <TextField
